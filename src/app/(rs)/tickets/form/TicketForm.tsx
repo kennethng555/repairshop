@@ -12,7 +12,12 @@ import { CheckBoxWithLabel } from "@/components/inputs/CheckBoxWithLabel"
 
 import { insertTicketSchema, selectTicketSchemaType, type insertTicketSchemaType, type selectTicketSchema } from "@/zod-schemas/ticket"
 import { selectCustomerSchemaType } from "@/zod-schemas/customer"
-import { Check } from "lucide-react"
+
+import { useAction } from "next-safe-action/hooks"
+import { saveTicketAction } from "@/app/actions/saveTicketAction"
+import { toast } from "sonner"
+import { LoaderCircle } from 'lucide-react'
+import { DisplayServerActionResponse } from "@/components/DisplayServerActionResponse"
 
 type Props = {
   customer: selectCustomerSchemaType,
@@ -30,7 +35,7 @@ export default function TicketForm({
   const isManager = Array.isArray(techs)
 
   const defaultValues: insertTicketSchemaType = {
-    id: ticket?.id ?? "(New)",
+    id: ticket?.id ?? '(New)',
     customerId: ticket?.customerId ?? customer.id,
     title: ticket?.title ?? '',
     description: ticket?.description ?? '',
@@ -44,12 +49,32 @@ export default function TicketForm({
     defaultValues,
   })
 
+  const {
+    execute: executeSave,
+    result: saveResult,
+    isPending: isSaving,
+    reset: resetSaveAction,
+  } = useAction(saveTicketAction, {
+    onSuccess({ data }) {
+      toast("Success!", {
+        description: data?.message,
+      })
+    },
+    onError({ error }) {
+      toast("Error!", {
+        description: "Save Failed",
+      })
+    }
+  })
+
   async function submitForm(data: insertTicketSchemaType) {
-    console.log(data)
+    // console.log(data)
+    executeSave(data)
   }
 
   return (
     <div className="flex flex-col gap-1 sm:px-8">
+      <DisplayServerActionResponse result={saveResult} />
       <div>
         <h2 className="text-2xl font-bold"> 
           {ticket && isEditable ? `Edit Ticket # ${ticket.id}` : ticket?.id ? `View Ticket # ${ticket.id}` : "New Ticket Form"}
@@ -118,16 +143,26 @@ export default function TicketForm({
                   type="submit"
                   className="w-34"
                   variant="default"
-                  title="Save">
-                    Save
+                  title="Save"
+                  disabled={isSaving}
+                >
+                  {isSaving ? (
+                    <>
+                      <LoaderCircle className="animate-spin" /> Saving
+                    </>
+                  ) : "Save"}
                 </Button>
 
                 <Button
                   type="button"
                   variant="destructive"
                   title="Reset"
-                  onClick={() => form.reset(defaultValues)}>
-                    Reset
+                  onClick={() => {
+                    form.reset(defaultValues)
+                    resetSaveAction()
+                  }}
+                >
+                  Reset
                 </Button>
               </div>
             ) : null}
