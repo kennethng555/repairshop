@@ -29,7 +29,7 @@ export const tickets = pgTable("tickets", {
   description: text("description"),
   completed: boolean("completed").notNull().default(false),
   tech: varchar("tech").notNull().default("unassigned"),
-  createAt: timestamp("created_at").notNull().defaultNow(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow().
   $onUpdate(() => new Date()),
 })
