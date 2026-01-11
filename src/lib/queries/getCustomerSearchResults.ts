@@ -13,6 +13,7 @@ export async function getCustomerSearchResults(searchText: string) {
       sql`lower(concat(${customers.firstName}, ' ', ${customers.lastName})) LIKE
       ${`%${searchText.toLocaleLowerCase().replace(' ', '%')}%`}`
     ))
+    .orderBy(customers.lastName)
 
     return results
 }
