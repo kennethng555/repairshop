@@ -32,7 +32,6 @@ import { Button } from "@/components/ui/button"
 
 import { MoreHorizontal, TableOfContents } from "lucide-react"
 
-import { useRouter } from "next/navigation"
 import Link from "next/link"
 
 type Props = {
@@ -40,8 +39,6 @@ type Props = {
 }
 
 export default function CustomerTable({ data }: Props) {
-  const router = useRouter()
-
   const columnHeadersArray: Array<keyof selectCustomerSchemaType> = [
     "firstName",
     "lastName",
@@ -101,8 +98,8 @@ export default function CustomerTable({ data }: Props) {
     }),
     ...columnHeadersArray.map((columnName) => {
       return columnHelper.accessor(columnName, {
-        id: columnName,
-        header: columnName[0].toUpperCase() + columnName.slice(1)
+        id: String(columnName),
+        header: String(columnName)[0].toUpperCase() + String(columnName).slice(1)
       })
   })]
 

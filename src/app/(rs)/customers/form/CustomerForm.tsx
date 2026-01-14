@@ -22,7 +22,6 @@ import { DisplayServerActionResponse } from "@/components/DisplayServerActionRes
 
 import { useSearchParams } from "next/navigation"
 import { useEffect } from "react"
-import { SearchParamsContext } from "next/dist/shared/lib/hooks-client-context.shared-runtime"
 
 type Props = {
   customer?: selectCustomerSchemaType,
@@ -85,7 +84,7 @@ export default function CustomerForm({ customer, isManager = false }: Props) {
         description: data?.message,
       })
     },
-    onError({ error }) {
+    onError() {
       toast("Error!", {
         description: "Save Failed",
       })

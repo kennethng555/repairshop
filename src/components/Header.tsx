@@ -1,4 +1,4 @@
-import { HomeIcon, File, UserRound, LogOut, UsersRound } from 'lucide-react'; 
+import { HomeIcon, File, LogOut, UsersRound } from 'lucide-react'; 
 import Link from 'next/link';
 import { LogoutLink } from '@kinde-oss/kinde-auth-nextjs/components';
 

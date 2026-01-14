@@ -48,6 +48,10 @@ export function CheckBoxWithLabel<S>({
             </FormControl>
           </div>
 
+          {message && (
+            <p className="text-sm text-muted-foreground">{message}</p>
+          )}
+
           <FormMessage />
         </FormItem>
       )}

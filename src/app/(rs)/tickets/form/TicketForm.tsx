@@ -10,7 +10,7 @@ import { SelectWithLabel } from "@/components/inputs/SelectWithLabel"
 import { TextAreaWithLabel } from "@/components/inputs/TextAreaWithLabel"
 import { CheckBoxWithLabel } from "@/components/inputs/CheckBoxWithLabel"
 
-import { insertTicketSchema, selectTicketSchemaType, type insertTicketSchemaType, type selectTicketSchema } from "@/zod-schemas/ticket"
+import { insertTicketSchema, selectTicketSchemaType, type insertTicketSchemaType } from "@/zod-schemas/ticket"
 import { selectCustomerSchemaType } from "@/zod-schemas/customer"
 
 import { useAction } from "next-safe-action/hooks"
@@ -59,7 +59,7 @@ export default function TicketForm({
         description: data?.message,
       })
     },
-    onError({ error }) {
+    onError() {
       toast("Error!", {
         description: "Save Failed",
       })

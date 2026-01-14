@@ -50,6 +50,7 @@ export function SelectWithLabel<S>({
 
           <Select
             {...field}
+            {...props}
             onValueChange={field.onChange}
           >
             <FormControl>

@@ -1,7 +1,6 @@
 import { db } from "@/db"
 import { tickets, customers } from "@/db/schema"
 import { eq, ilike, or, sql, asc } from "drizzle-orm"
-import { getTicket } from "./getTicket"
 
 export async function getTicketSearchResults(searchText: string) {
   const results = await db.select({
